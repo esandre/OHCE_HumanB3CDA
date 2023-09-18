@@ -9,7 +9,8 @@ public static class Palindrome
         var builder = new StringBuilder();
 
         builder.AppendLine(Expressions.Bonjour);
-        builder.Append(new string(chaîne.Reverse().ToArray()));
+        builder.AppendLine(new string(chaîne.Reverse().ToArray()));
+        builder.Append(Expressions.AuRevoir);
 
         return builder.ToString();
     }

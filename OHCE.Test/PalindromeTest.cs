@@ -42,5 +42,18 @@ namespace OHCE.Test
             // ALORS "Bonjour" s'affiche en premier
             Assert.StartsWith(Expressions.Bonjour, obtenu);
         }
+
+        [Fact]
+        public void AuRevoirTest()
+        {
+            // ETANT DONNE une chaîne
+            const string chaîne = "test";
+
+            // QUAND on l'envoie à Palindrome
+            var obtenu = Palindrome.Interpréter(chaîne);
+
+            // ALORS "Au revoir" s'affiche en dernier après un saut de ligne
+            Assert.EndsWith(Environment.NewLine + Expressions.AuRevoir, obtenu);
+        }
     }
 }
