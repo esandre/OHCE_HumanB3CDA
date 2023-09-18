@@ -25,8 +25,22 @@ namespace OHCE.Test
 
             // ALORS on obtient son miroir
             var miroir = new string(chaîne.Reverse().ToArray());
-            Assert.Equal(miroir, obtenu);
+
+            Assert.Contains(Environment.NewLine + miroir, obtenu);
             _testOutputHelper.WriteLine(obtenu);
+        }
+
+        [Fact]
+        public void BonjourTest()
+        {
+            // ETANT DONNE une chaîne
+            const string chaîne = "";
+
+            // QUAND on l'envoie à Palindrome
+            var obtenu = Palindrome.Interpréter(chaîne);
+
+            // ALORS "Bonjour" s'affiche en premier
+            Assert.StartsWith(Expressions.Bonjour, obtenu);
         }
     }
 }
