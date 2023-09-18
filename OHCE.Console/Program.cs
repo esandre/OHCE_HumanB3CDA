@@ -1,3 +1,7 @@
 ﻿using OHCE.Domaine;
+using OHCE.Domaine.Langue;
 
-Console.WriteLine(Palindrome.Interpréter(Console.ReadLine() ?? string.Empty));
+var langue = new LangueFrançaise();
+var palindrome = new Palindrome(langue);
+
+Console.WriteLine(palindrome.Interpréter(Console.ReadLine() ?? string.Empty));

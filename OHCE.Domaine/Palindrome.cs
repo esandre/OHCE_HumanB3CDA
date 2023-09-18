@@ -1,10 +1,15 @@
 ﻿using System.Text;
+using OHCE.Domaine.Langue;
 
 namespace OHCE.Domaine;
 
-public static class Palindrome
+public class Palindrome
 {
-    public static string Interpréter(string chaîne)
+    public Palindrome(LangueFrançaise langueFrançaise)
+    {
+    }
+
+    public string Interpréter(string chaîne)
     {
         var miroir = new string(chaîne.Reverse().ToArray());
         var estUnPalindrome = miroir.Equals(chaîne, StringComparison.OrdinalIgnoreCase);
@@ -13,7 +18,7 @@ public static class Palindrome
 
         builder.AppendLine(Expressions.Bonjour);
         builder.AppendLine(miroir);
-        if(estUnPalindrome) 
+        if (estUnPalindrome)
             builder.AppendLine(Expressions.BienDit);
         builder.Append(Expressions.AuRevoir);
 
