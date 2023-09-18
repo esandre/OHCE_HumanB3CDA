@@ -1,4 +1,3 @@
-using OHCE.Domaine;
 using OHCE.Domaine.Langue;
 using OHCE.Test.Utilities;
 using Xunit.Abstractions;
@@ -39,13 +38,33 @@ public class PalindromeTest
         const string chaîne = "";
         var langueFrançaise = new LangueFrançaise();
 
-        var palindrome = new Palindrome(langueFrançaise);
+        var palindrome = new PalindromeBuilder()
+            .AyantPourLangue(langueFrançaise)
+            .Build();
 
         // QUAND on l'envoie à Palindrome
         var obtenu = palindrome.Interpréter(chaîne);
 
         // ALORS "Bonjour" s'affiche en premier
         Assert.StartsWith(Expressions.Bonjour, obtenu);
+    }
+
+    [Fact]
+    public void HelloTest()
+    {
+        // ETANT DONNE une chaîne ET un utilisateur parlant anglais
+        const string chaîne = "";
+        var langue = new LangueAnglaise();
+
+        var palindrome = new PalindromeBuilder()
+            .AyantPourLangue(langue)
+            .Build();
+
+        // QUAND on l'envoie à Palindrome
+        var obtenu = palindrome.Interpréter(chaîne);
+
+        // ALORS "Hello" s'affiche en premier
+        Assert.StartsWith(Expressions.Hello, obtenu);
     }
 
     [Fact]

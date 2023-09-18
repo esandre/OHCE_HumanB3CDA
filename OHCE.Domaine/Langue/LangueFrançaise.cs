@@ -1,5 +1,7 @@
 ﻿namespace OHCE.Domaine.Langue;
 
-public class LangueFrançaise
+public class LangueFrançaise : ILangue
 {
+    /// <inheritdoc />
+    public string Saluer() => Expressions.Bonjour;
 }

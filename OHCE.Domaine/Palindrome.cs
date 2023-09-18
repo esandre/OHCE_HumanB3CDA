@@ -5,8 +5,11 @@ namespace OHCE.Domaine;
 
 public class Palindrome
 {
-    public Palindrome(LangueFrançaise langueFrançaise)
+    private readonly ILangue _langue;
+
+    public Palindrome(ILangue langue)
     {
+        _langue = langue;
     }
 
     public string Interpréter(string chaîne)
@@ -16,7 +19,7 @@ public class Palindrome
 
         var builder = new StringBuilder();
 
-        builder.AppendLine(Expressions.Bonjour);
+        builder.AppendLine(_langue.Saluer());
         builder.AppendLine(miroir);
         if (estUnPalindrome)
             builder.AppendLine(Expressions.BienDit);
