@@ -2,14 +2,16 @@ using OHCE.Domaine;
 
 namespace OHCE.Test
 {
-    public class UnitTest1
+    public class PalindromeTest
     {
-        [Fact]
-        public void MiroirTest()
+        [Theory]
+        [InlineData("")]
+        [InlineData("test")]
+        [InlineData("toast")]
+        [InlineData("Toast")]
+        public void MiroirTest(string chaîne)
         {
             // ETANT DONNE une chaîne
-            const string chaîne = "test";
-
             // QUAND on l'envoie à Palindrome
             var obtenu = Palindrome.Interpréter(chaîne);
 
