@@ -9,4 +9,5 @@ public static class Expressions
     public const string Hello = "Hello";
     public const string Goodbye = "Goodbye";
     public const string WellSaid = "Well Said !";
+    public const string GoodMorning = "Good Morning";
 }

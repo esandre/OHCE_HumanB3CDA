@@ -19,4 +19,9 @@ internal class PalindromeBuilder
         _langue = langue;
         return this;
     }
+
+    public PalindromeBuilder AyantPourMomentDeLaJournée(MomentDeLaJournée moment)
+    {
+        return this;
+    }
 }

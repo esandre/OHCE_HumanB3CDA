@@ -1,3 +1,4 @@
+using OHCE.Domaine;
 using OHCE.Domaine.Langue;
 using OHCE.Test.Utilities;
 using Xunit.Abstractions;
@@ -33,25 +34,29 @@ public class PalindromeTest
 
     public static IEnumerable<object[]> LanguesEtSalutations = new[]
     {
-        new object[] { new LangueAnglaise(), Expressions.Hello },
-        new object[] { new LangueFrançaise(), Expressions.Bonjour }
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Inconnu, Expressions.Hello },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Matin, Expressions.GoodMorning },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Inconnu, Expressions.Bonjour }
     };
 
     [Theory]
     [MemberData(nameof(LanguesEtSalutations))]
-    public void SalutationTest(ILangue langue, string salutationAttendue)
+    public void SalutationTest(ILangue langue, MomentDeLaJournée moment, string salutationAttendue)
     {
-        // ETANT DONNE une chaîne ET un utilisateur parlant <langue>
+        // ETANT DONNE une chaîne
+        // ET un utilisateur parlant <langue>
+        // ET que nous sommes le <moment de la journée>
         const string chaîne = "";
 
         var palindrome = new PalindromeBuilder()
             .AyantPourLangue(langue)
+            .AyantPourMomentDeLaJournée(moment)
             .Build();
 
         // QUAND on l'envoie à Palindrome
         var obtenu = palindrome.Interpréter(chaîne);
 
-        // ALORS les salutations attendues de cette langue s'affichent en premier
+        // ALORS les salutations attendues de cette langue à ce moment s'affichent en premier
         Assert.StartsWith(salutationAttendue, obtenu);
     }
 
