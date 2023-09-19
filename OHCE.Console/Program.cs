@@ -2,6 +2,6 @@
 using OHCE.Domaine.Langue;
 
 var langue = new LangueFrançaise();
-var palindrome = new Palindrome(langue);
+var palindrome = new Palindrome(langue, MomentDeLaJournée.Inconnu);
 
 Console.WriteLine(palindrome.Interpréter(Console.ReadLine() ?? string.Empty));

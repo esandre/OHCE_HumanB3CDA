@@ -36,7 +36,14 @@ public class PalindromeTest
     {
         new object[] { new LangueAnglaise(), MomentDeLaJournée.Inconnu, Expressions.Hello },
         new object[] { new LangueAnglaise(), MomentDeLaJournée.Matin, Expressions.GoodMorning },
-        new object[] { new LangueFrançaise(), MomentDeLaJournée.Inconnu, Expressions.Bonjour }
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.AprèsMidi, Expressions.GoodAfternoon },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Soir, Expressions.GoodEvening },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Nuit, Expressions.GoodNight },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Inconnu, Expressions.Bonjour },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Matin, Expressions.Bonjour },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.AprèsMidi, Expressions.Bonjour },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Soir, Expressions.Bonsoir },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Nuit, Expressions.Bonsoir },
     };
 
     [Theory]
