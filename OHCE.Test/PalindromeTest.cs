@@ -1,6 +1,5 @@
 using OHCE.Domaine.Langue;
 using OHCE.Test.Utilities;
-using System.Threading.Channels;
 using Xunit.Abstractions;
 
 namespace OHCE.Test;
@@ -32,30 +31,18 @@ public class PalindromeTest
         _testOutputHelper.WriteLine(obtenu);
     }
 
-    [Fact]
-    public void BonjourTest()
+    public static IEnumerable<object[]> LanguesEtSalutations = new[]
     {
-        // ETANT DONNE une chaîne ET un utilisateur parlant français
-        const string chaîne = "";
-        var langueFrançaise = new LangueFrançaise();
+        new object[] { new LangueAnglaise(), Expressions.Hello },
+        new object[] { new LangueFrançaise(), Expressions.Bonjour }
+    };
 
-        var palindrome = new PalindromeBuilder()
-            .AyantPourLangue(langueFrançaise)
-            .Build();
-
-        // QUAND on l'envoie à Palindrome
-        var obtenu = palindrome.Interpréter(chaîne);
-
-        // ALORS "Bonjour" s'affiche en premier
-        Assert.StartsWith(Expressions.Bonjour, obtenu);
-    }
-
-    [Fact]
-    public void HelloTest()
+    [Theory]
+    [MemberData(nameof(LanguesEtSalutations))]
+    public void SalutationTest(ILangue langue, string salutationAttendue)
     {
-        // ETANT DONNE une chaîne ET un utilisateur parlant anglais
+        // ETANT DONNE une chaîne ET un utilisateur parlant <langue>
         const string chaîne = "";
-        var langue = new LangueAnglaise();
 
         var palindrome = new PalindromeBuilder()
             .AyantPourLangue(langue)
@@ -64,80 +51,58 @@ public class PalindromeTest
         // QUAND on l'envoie à Palindrome
         var obtenu = palindrome.Interpréter(chaîne);
 
-        // ALORS "Hello" s'affiche en premier
-        Assert.StartsWith(Expressions.Hello, obtenu);
+        // ALORS les salutations attendues de cette langue s'affichent en premier
+        Assert.StartsWith(salutationAttendue, obtenu);
     }
 
-    [Fact]
-    public void AuRevoirTest()
+    public static IEnumerable<object[]> LanguesEtAcquittances = new[]
     {
-        // ETANT DONNE une chaîne ET un utilisateur parlant français
-        const string chaîne = "test";
-        var langueFrançaise = new LangueFrançaise();
-
-        // QUAND on l'envoie à Palindrome
-        var obtenu = new PalindromeBuilder()
-            .AyantPourLangue(langueFrançaise)
-            .Build()
-            .Interpréter(chaîne);
-
-        // ALORS "Au revoir" s'affiche en dernier après un saut de ligne
-        Assert.EndsWith(Environment.NewLine + Expressions.AuRevoir, obtenu);
-    }
-
-    [Fact]
-    public void GoodbyeTest()
-    {
-        // ETANT DONNE une chaîne ET un utilisateur parlant anglais
-        const string chaîne = "test";
-        var langueAnglaise = new LangueAnglaise();
-
-        // QUAND on l'envoie à Palindrome
-        var obtenu = new PalindromeBuilder()
-            .AyantPourLangue(langueAnglaise)
-            .Build()
-            .Interpréter(chaîne);
-
-        // ALORS "Goodbye" s'affiche en dernier après un saut de ligne
-        Assert.EndsWith(Environment.NewLine + Expressions.Goodbye, obtenu);
-    }
+        new object[] { new LangueAnglaise(), Expressions.Goodbye },
+        new object[] { new LangueFrançaise(), Expressions.AuRevoir }
+    };
 
     [Theory]
-    [InlineData("radar")]
-    [InlineData("Radar")]
-    public void BienDitTest(string palindrome)
+    [MemberData(nameof(LanguesEtAcquittances))]
+    public void AcquittanceTest(ILangue langue, string acquittanceAttendue)
     {
-        // ETANT DONNE un palindrome ET un utilisateur parlant français
-        var langueFrançaise = new LangueFrançaise();
+        // ETANT DONNE une chaîne ET un utilisateur parlant <langue>
+        const string chaîne = "test";
+
+        var palindrome = new PalindromeBuilder()
+            .AyantPourLangue(langue)
+            .Build();
 
         // QUAND on l'envoie à Palindrome
-        var obtenu = new PalindromeBuilder()
-            .AyantPourLangue(langueFrançaise)
-            .Build()
-            .Interpréter(palindrome);
-        var miroir = new string(palindrome.Reverse().ToArray());
+        var obtenu = palindrome.Interpréter(chaîne);
 
-        // ALORS "Bien dit" s'affiche immédiatement après la réponse et un saut de ligne
-        Assert.Contains(miroir + Environment.NewLine + Expressions.BienDit, obtenu);
+        // ALORS l'acquittance attendue de la langue s'affiche en dernier après un saut de ligne
+        Assert.EndsWith(Environment.NewLine + acquittanceAttendue, obtenu);
     }
 
-    [Theory]
-    [InlineData("radar")]
-    [InlineData("Radar")]
-    public void WellSaidTest(string palindrome)
+    public static IEnumerable<object[]> LanguesEtFélicitations = new[]
     {
-        // ETANT DONNE un palindrome ET un utilisateur parlant anglais
-        var langueAnglaise = new LangueAnglaise();
+        new object[] { new LangueAnglaise(), Expressions.WellSaid, "Radar" },
+        new object[] { new LangueAnglaise(), Expressions.WellSaid, "radar" },
+        new object[] { new LangueFrançaise(), Expressions.BienDit, "Radar" },
+        new object[] { new LangueFrançaise(), Expressions.BienDit, "radar" }
+    };
+
+    [Theory]
+    [MemberData(nameof(LanguesEtFélicitations))]
+    public void BienDitTest(ILangue langue, string félicitationsAttendues, string palindromeTesté)
+    {
+        // ETANT DONNE un palindrome ET un utilisateur parlant <langue>
+        var interpréteur = new PalindromeBuilder()
+            .AyantPourLangue(langue)
+            .Build();
 
         // QUAND on l'envoie à Palindrome
-        var obtenu = new PalindromeBuilder()
-            .AyantPourLangue(langueAnglaise)
-            .Build()
-            .Interpréter(palindrome);
-        var miroir = new string(palindrome.Reverse().ToArray());
+        var obtenu = interpréteur.Interpréter(palindromeTesté);
+        var miroir = new string(palindromeTesté.Reverse().ToArray());
 
-        // ALORS "Well said" s'affiche immédiatement après la réponse et un saut de ligne
-        Assert.Contains(miroir + Environment.NewLine + Expressions.WellSaid, obtenu);
+        // ALORS les félicitations attendues s'affichent immédiatement
+        // après la réponse et un saut de ligne
+        Assert.Contains(miroir + Environment.NewLine + félicitationsAttendues, obtenu);
     }
 
     [Fact]
