@@ -17,4 +17,9 @@ public class MomentDeLaJournée
 
     /// <inheritdoc />
     public override string ToString() => _displayName;
+
+    public static MomentDeLaJournée FromHeure(int heure)
+    {
+        return Nuit;
+    }
 }
