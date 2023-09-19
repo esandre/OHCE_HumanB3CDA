@@ -17,4 +17,14 @@ public class MomentDeLaJournée
 
     /// <inheritdoc />
     public override string ToString() => _displayName;
+
+    public static MomentDeLaJournée FromHeure(int heure)
+        => heure switch
+           {
+               < 6  => Nuit,
+               < 12 => Matin,
+               < 18 => AprèsMidi,
+               < 21 => Soir,
+               _    => Nuit
+           };
 }
