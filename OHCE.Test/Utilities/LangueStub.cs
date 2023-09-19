@@ -5,12 +5,13 @@ namespace OHCE.Test.Utilities;
 
 internal class LangueStub : ILangue
 {
-    /// <param name="momentDeLaJournée"></param>
+    /// <param name="_"></param>
     /// <inheritdoc />
-    public string Saluer(MomentDeLaJournée momentDeLaJournée) => string.Empty;
+    public string Saluer(MomentDeLaJournée _) => string.Empty;
 
+    /// <param name="_"></param>
     /// <inheritdoc />
-    public string Acquitter() => string.Empty;
+    public string Acquitter(MomentDeLaJournée _) => string.Empty;
 
     /// <inheritdoc />
     public virtual string Féliciter() => string.Empty;

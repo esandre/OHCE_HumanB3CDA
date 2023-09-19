@@ -25,7 +25,7 @@ public class Palindrome
         builder.AppendLine(miroir);
         if (estUnPalindrome)
             builder.AppendLine(_langue.Féliciter());
-        builder.Append(_langue.Acquitter());
+        builder.Append(_langue.Acquitter(_moment));
 
         return builder.ToString();
     }

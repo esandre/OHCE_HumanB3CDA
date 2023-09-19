@@ -3,6 +3,6 @@
 public interface ILangue
 {
     string Saluer(MomentDeLaJournée momentDeLaJournée);
-    string Acquitter();
+    string Acquitter(MomentDeLaJournée momentDeLaJournée);
     string Féliciter();
 }
