@@ -1,5 +1,6 @@
 using OHCE.Domaine.Langue;
 using OHCE.Test.Utilities;
+using System.Threading.Channels;
 using Xunit.Abstractions;
 
 namespace OHCE.Test;
@@ -70,14 +71,35 @@ public class PalindromeTest
     [Fact]
     public void AuRevoirTest()
     {
-        // ETANT DONNE une chaîne
+        // ETANT DONNE une chaîne ET un utilisateur parlant français
         const string chaîne = "test";
+        var langueFrançaise = new LangueFrançaise();
 
         // QUAND on l'envoie à Palindrome
-        var obtenu = PalindromeBuilder.Default.Interpréter(chaîne);
+        var obtenu = new PalindromeBuilder()
+            .AyantPourLangue(langueFrançaise)
+            .Build()
+            .Interpréter(chaîne);
 
         // ALORS "Au revoir" s'affiche en dernier après un saut de ligne
         Assert.EndsWith(Environment.NewLine + Expressions.AuRevoir, obtenu);
+    }
+
+    [Fact]
+    public void GoodbyeTest()
+    {
+        // ETANT DONNE une chaîne ET un utilisateur parlant anglais
+        const string chaîne = "test";
+        var langueAnglaise = new LangueAnglaise();
+
+        // QUAND on l'envoie à Palindrome
+        var obtenu = new PalindromeBuilder()
+            .AyantPourLangue(langueAnglaise)
+            .Build()
+            .Interpréter(chaîne);
+
+        // ALORS "Goodbye" s'affiche en dernier après un saut de ligne
+        Assert.EndsWith(Environment.NewLine + Expressions.Goodbye, obtenu);
     }
 
     [Theory]
@@ -85,25 +107,55 @@ public class PalindromeTest
     [InlineData("Radar")]
     public void BienDitTest(string palindrome)
     {
-        // ETANT DONNE un palindrome
+        // ETANT DONNE un palindrome ET un utilisateur parlant français
+        var langueFrançaise = new LangueFrançaise();
+
         // QUAND on l'envoie à Palindrome
-        var obtenu = PalindromeBuilder.Default.Interpréter(palindrome);
+        var obtenu = new PalindromeBuilder()
+            .AyantPourLangue(langueFrançaise)
+            .Build()
+            .Interpréter(palindrome);
         var miroir = new string(palindrome.Reverse().ToArray());
 
         // ALORS "Bien dit" s'affiche immédiatement après la réponse et un saut de ligne
         Assert.Contains(miroir + Environment.NewLine + Expressions.BienDit, obtenu);
     }
 
+    [Theory]
+    [InlineData("radar")]
+    [InlineData("Radar")]
+    public void WellSaidTest(string palindrome)
+    {
+        // ETANT DONNE un palindrome ET un utilisateur parlant anglais
+        var langueAnglaise = new LangueAnglaise();
+
+        // QUAND on l'envoie à Palindrome
+        var obtenu = new PalindromeBuilder()
+            .AyantPourLangue(langueAnglaise)
+            .Build()
+            .Interpréter(palindrome);
+        var miroir = new string(palindrome.Reverse().ToArray());
+
+        // ALORS "Well said" s'affiche immédiatement après la réponse et un saut de ligne
+        Assert.Contains(miroir + Environment.NewLine + Expressions.WellSaid, obtenu);
+    }
+
     [Fact]
-    public void BienDitAbsentTest()
+    public void FélicitationsAbsentesTest()
     {
         // ETANT DONNE une chaîne n'étant pas un palindrome
         const string nonPalindrome = "paslindrome";
 
-        // QUAND on l'envoie à Palindrome
-        var obtenu = PalindromeBuilder.Default.Interpréter(nonPalindrome);
+        // ET un utilisateur parlant n'importe quelle langue
+        var langueSpy = new LangueFélicitationsSpy();
 
-        // ALORS "Bien dit" ne s'affiche nulle part
-        Assert.DoesNotContain(Expressions.BienDit, obtenu);
+        // QUAND on l'envoie à Palindrome
+        new PalindromeBuilder()
+            .AyantPourLangue(langueSpy)
+            .Build()
+            .Interpréter(nonPalindrome);
+
+        // ALORS les félicitations de cette langue ne sont jamais consultées
+        Assert.False(langueSpy.FélicitationsConsultées);
     }
 }

@@ -22,8 +22,8 @@ public class Palindrome
         builder.AppendLine(_langue.Saluer());
         builder.AppendLine(miroir);
         if (estUnPalindrome)
-            builder.AppendLine(Expressions.BienDit);
-        builder.Append(Expressions.AuRevoir);
+            builder.AppendLine(_langue.Féliciter());
+        builder.Append(_langue.Acquitter());
 
         return builder.ToString();
     }
