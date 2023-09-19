@@ -2,7 +2,7 @@
 
 public interface ILangue
 {
-    string Saluer();
-    string Acquitter();
+    string Saluer(MomentDeLaJournée momentDeLaJournée);
+    string Acquitter(MomentDeLaJournée momentDeLaJournée);
     string Féliciter();
 }

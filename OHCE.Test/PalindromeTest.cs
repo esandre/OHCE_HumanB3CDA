@@ -1,3 +1,4 @@
+using OHCE.Domaine;
 using OHCE.Domaine.Langue;
 using OHCE.Test.Utilities;
 using Xunit.Abstractions;
@@ -33,49 +34,72 @@ public class PalindromeTest
 
     public static IEnumerable<object[]> LanguesEtSalutations = new[]
     {
-        new object[] { new LangueAnglaise(), Expressions.Hello },
-        new object[] { new LangueFrançaise(), Expressions.Bonjour }
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Inconnu, Expressions.Hello },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Matin, Expressions.GoodMorning },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.AprèsMidi, Expressions.GoodAfternoon },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Soir, Expressions.GoodEvening },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Nuit, Expressions.Hello },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Inconnu, Expressions.Bonjour },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Matin, Expressions.Bonjour },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.AprèsMidi, Expressions.Bonjour },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Soir, Expressions.Bonsoir },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Nuit, Expressions.Bonsoir },
     };
 
     [Theory]
     [MemberData(nameof(LanguesEtSalutations))]
-    public void SalutationTest(ILangue langue, string salutationAttendue)
+    public void SalutationTest(ILangue langue, MomentDeLaJournée moment, string salutationAttendue)
     {
-        // ETANT DONNE une chaîne ET un utilisateur parlant <langue>
+        // ETANT DONNE une chaîne
+        // ET un utilisateur parlant <langue>
+        // ET que nous sommes le <moment de la journée>
         const string chaîne = "";
 
         var palindrome = new PalindromeBuilder()
             .AyantPourLangue(langue)
+            .AyantPourMomentDeLaJournée(moment)
             .Build();
 
         // QUAND on l'envoie à Palindrome
         var obtenu = palindrome.Interpréter(chaîne);
 
-        // ALORS les salutations attendues de cette langue s'affichent en premier
+        // ALORS les salutations attendues de cette langue à ce moment s'affichent en premier
         Assert.StartsWith(salutationAttendue, obtenu);
     }
 
     public static IEnumerable<object[]> LanguesEtAcquittances = new[]
     {
-        new object[] { new LangueAnglaise(), Expressions.Goodbye },
-        new object[] { new LangueFrançaise(), Expressions.AuRevoir }
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Inconnu, Expressions.Goodbye },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Matin, Expressions.HaveANiceDay },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.AprèsMidi, Expressions.HaveANiceDay },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Soir, Expressions.HaveANiceEvening },
+        new object[] { new LangueAnglaise(), MomentDeLaJournée.Nuit, Expressions.GoodNight },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Inconnu, Expressions.AuRevoir },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Matin, Expressions.BonneJournée },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.AprèsMidi, Expressions.BonneJournée },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Soir, Expressions.BonneSoirée },
+        new object[] { new LangueFrançaise(), MomentDeLaJournée.Nuit, Expressions.BonneNuit },
     };
 
     [Theory]
     [MemberData(nameof(LanguesEtAcquittances))]
-    public void AcquittanceTest(ILangue langue, string acquittanceAttendue)
+    public void AcquittanceTest(ILangue langue, MomentDeLaJournée moment, string acquittanceAttendue)
     {
-        // ETANT DONNE une chaîne ET un utilisateur parlant <langue>
+        // ETANT DONNE une chaîne
+        // ET un utilisateur parlant <langue>
+        // ET que nous sommes le <moment de la journée>
         const string chaîne = "test";
 
         var palindrome = new PalindromeBuilder()
             .AyantPourLangue(langue)
+            .AyantPourMomentDeLaJournée(moment)
             .Build();
 
         // QUAND on l'envoie à Palindrome
         var obtenu = palindrome.Interpréter(chaîne);
 
-        // ALORS l'acquittance attendue de la langue s'affiche en dernier après un saut de ligne
+        // ALORS l'acquittance attendue de la langue à ce moment de la journée
+        // s'affiche en dernier après un saut de ligne
         Assert.EndsWith(Environment.NewLine + acquittanceAttendue, obtenu);
     }
 
