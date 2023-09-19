@@ -9,6 +9,7 @@ public static class Expressions
     public const string BonneJournée = "Bonne journée !";
     public const string BonneSoirée = "Bonne soirée !";
     public const string BonneNuit = "Bonne nuit !";
+    public const string BonAprèsMidi = "Bon après-midi !";
 
     public const string Hello = "Hello";
     public const string Goodbye = "Goodbye";

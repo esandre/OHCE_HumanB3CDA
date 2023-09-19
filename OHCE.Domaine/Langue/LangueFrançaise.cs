@@ -19,7 +19,7 @@ public class LangueFrançaise : ILangue
         if (momentDeLaJournée == MomentDeLaJournée.Matin)
             return Expressions.BonneJournée;
         if (momentDeLaJournée == MomentDeLaJournée.AprèsMidi)
-            return Expressions.BonneJournée;
+            return Expressions.BonAprèsMidi;
         if (momentDeLaJournée == MomentDeLaJournée.Soir)
             return Expressions.BonneSoirée;
         if (momentDeLaJournée == MomentDeLaJournée.Nuit)

@@ -1,7 +1,8 @@
-﻿using OHCE.Domaine;
-using OHCE.Domaine.Langue;
+﻿using OHCE.Console;
+using OHCE.Domaine;
 
-var langue = new LangueFrançaise();
-var palindrome = new Palindrome(langue, MomentDeLaJournée.Soir);
+var palindrome = new Palindrome(
+    new LangueSystèmeAdapter(), 
+    MomentActuelFactory.Factory());
 
 Console.WriteLine(palindrome.Interpréter(Console.ReadLine() ?? string.Empty));
